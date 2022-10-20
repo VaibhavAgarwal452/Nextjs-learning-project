@@ -51,7 +51,6 @@
 }
 
 .description {
-  margin: 4rem 0;
   line-height: 1.5;
   font-size: 1.5rem;
 }
@@ -126,4 +125,16 @@
   .logo img {
     filter: invert(1);
   }
+}
+
+.mainnav ul{
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+}
+
+.mainnav ul li {
+  margin: 0 20px;
+  font-weight: bold;
+  cursor: pointer 
 }
