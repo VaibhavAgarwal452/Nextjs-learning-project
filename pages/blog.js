@@ -2,15 +2,15 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/Blog.module.css';
 import axios from 'axios';
-const blog = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
-    let { data } = await axios.get('http://localhost:3000/api/blogs');
-    setPosts(data);
-  };
+const blog = (props) => {
+  const [posts, setPosts] = useState(props.allBlogs);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  // const fetchData = async () => {
+  //   let { data } = await axios.get('http://localhost:3000/api/blogs');
+  //   setPosts(data);
+  // };
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -34,3 +34,11 @@ const blog = () => {
 };
 
 export default blog;
+
+export async function getServerSideProps(context) {
+  let { data } = await axios.get('http://localhost:3000/api/blogs');
+  let allBlogs = data;
+  return {
+    props: { allBlogs },
+  };
+}

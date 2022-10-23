@@ -3,23 +3,22 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/Blog.module.css';
 import axios from 'axios';
 
-const slug = () => {
-  const [blog, setBlog] = useState([]);
-  const router = useRouter();
+const slug = (props) => {
+  const [blog, setBlog] = useState(props.blog);
 
-  useEffect(() => {
-    if (!router.isReady) return;
-    const { slug } = router.query;
-    console.log(slug);
-    fetchBlog(slug);
-  }, [router.isReady]);
+  // useEffect(() => {
+  //   if (!router.isReady) return;
+  //   const { slug } = router.query;
+  //   console.log(slug);
+  //   fetchBlog(slug);
+  // }, [router.isReady]);
 
-  const fetchBlog = async (slug) => {
-    const { data } = await axios.get(
-      `http://localhost:3000/api/getBlog?slug=${slug}`
-    );
-    setBlog(data);
-  };
+  // const fetchBlog = async (slug) => {
+  //   const { data } = await axios.get(
+  //     `http://localhost:3000/api/getBlog?slug=${slug}`
+  //   );
+  //   setBlog(data);
+  // };
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -32,3 +31,12 @@ const slug = () => {
 };
 
 export default slug;
+
+export async function getServerSideProps(context) {
+  const { data } = await axios.get(
+    `http://localhost:3000/api/getBlog?slug=${context.query.slug}`
+  );
+  return {
+    props: { blog: data },
+  };
+}
